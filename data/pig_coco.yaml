@@ -1,0 +1,17 @@
+# YOLOv5 dataset config for pig detection
+# Cấu hình dataset cho phát hiện lợn
+
+path: datasets/pig_coco     # dataset root (từ thư mục yolov5)
+train: images               # train images (relative to path)
+val: images                 # val images (relative to path)
+test:                       # test images (optional)
+
+# Classes
+nc: 1                       # number of classes
+names: ['pig']              # class names
+
+# Thông tin bổ sung
+# Data statistics:
+# - Total images: 21
+# - Total annotations (bounding boxes): 643
+# - Class: pig

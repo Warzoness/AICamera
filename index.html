@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YOLOv5 Web Detection - AI Camera Vật Nuôi</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            background: #f8f9fa;
+            border: none;
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #666;
+            transition: all 0.3s;
+        }
+
+        .tab:hover {
+            background: #e9ecef;
+        }
+
+        .tab.active {
+            background: white;
+            color: #667eea;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 40px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .upload-area {
+            border: 3px dashed #667eea;
+            border-radius: 15px;
+            padding: 60px;
+            text-align: center;
+            background: #f8f9ff;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 30px;
+        }
+
+        .upload-area:hover {
+            border-color: #764ba2;
+            background: #f0f2ff;
+            transform: scale(1.02);
+        }
+
+        .upload-area.dragover {
+            background: #e8ebff;
+            border-color: #764ba2;
+        }
+
+        .upload-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+            color: #667eea;
+        }
+
+        .upload-text {
+            font-size: 1.3em;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .upload-subtext {
+            color: #666;
+            font-size: 0.95em;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1em;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        .result-container {
+            margin-top: 30px;
+            display: none;
+        }
+
+        .result-container.show {
+            display: block;
+        }
+
+        .result-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .result-box {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .result-box h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .result-box img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .result-box video {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .detection-info {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+
+        .detection-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .detection-item:last-child {
+            border-bottom: none;
+        }
+
+        .object-name {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .confidence {
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .loading.show {
+            display: block;
+        }
+
+        .spinner {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #667eea;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 30px 0;
+            gap: 20px;
+        }
+
+        .stat-card {
+            flex: 1;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1em;
+            opacity: 0.9;
+        }
+
+        .webcam-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .webcam-feed {
+            width: 100%;
+            max-width: 800px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            margin: 20px auto;
+            display: block;
+        }
+
+        .alert {
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border-left: 4px solid #28a745;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border-left: 4px solid #dc3545;
+        }
+
+        .alert-info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border-left: 4px solid #17a2b8;
+        }
+
+        @media (max-width: 768px) {
+            .result-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats {
+                flex-direction: column;
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 YOLOv5 AI Detection System</h1>
+            <p>Hệ thống phát hiện đối tượng thông minh cho Camera Vật Nuôi</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab(0)">📷 Upload Ảnh</button>
+            <button class="tab" onclick="switchTab(1)">🎥 Upload Video</button>
+            <button class="tab" onclick="switchTab(2)">📹 Webcam Live</button>
+        </div>
+
+        <!-- Tab 1: Upload Ảnh -->
+        <div class="tab-content active">
+            <div class="upload-area" id="imageDropArea" onclick="document.getElementById('imageInput').click()">
+                <div class="upload-icon">📸</div>
+                <div class="upload-text">Kéo thả ảnh vào đây hoặc click để chọn</div>
+                <div class="upload-subtext">Hỗ trợ: JPG, PNG, BMP, WEBP (Tối đa 500MB)</div>
+                <input type="file" id="imageInput" accept="image/*" onchange="uploadImage(this.files[0])">
+            </div>
+
+            <div class="loading" id="imageLoading">
+                <div class="spinner"></div>
+                <p>Đang xử lý ảnh với YOLOv5...</p>
+            </div>
+
+            <div class="result-container" id="imageResult">
+                <div class="stats">
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalObjects">0</div>
+                        <div class="stat-label">Đối tượng phát hiện</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="avgConfidence">0%</div>
+                        <div class="stat-label">Độ chính xác TB</div>
+                    </div>
+                </div>
+
+                <div class="result-grid">
+                    <div class="result-box">
+                        <h3>🖼️ Ảnh gốc</h3>
+                        <img id="originalImage" src="" alt="Original">
+                    </div>
+                    <div class="result-box">
+                        <h3>✅ Kết quả Detection</h3>
+                        <img id="resultImage" src="" alt="Result">
+                    </div>
+                </div>
+
+                <div class="result-box" style="margin-top: 20px;">
+                    <h3>📋 Chi tiết các đối tượng phát hiện</h3>
+                    <div class="detection-info" id="detectionList"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab 2: Upload Video -->
+        <div class="tab-content">
+            <div class="upload-area" id="videoDropArea" onclick="document.getElementById('videoInput').click()">
+                <div class="upload-icon">🎬</div>
+                <div class="upload-text">Kéo thả video vào đây hoặc click để chọn</div>
+                <div class="upload-subtext">Hỗ trợ: MP4, AVI, MOV, MKV (Tối đa 500MB)</div>
+                <input type="file" id="videoInput" accept="video/*" onchange="uploadVideo(this.files[0])">
+            </div>
+
+            <div id="videoAlert"></div>
+
+            <div class="loading" id="videoLoading">
+                <div class="spinner"></div>
+                <p>Đang upload video...</p>
+            </div>
+
+            <div class="result-container" id="videoResult">
+                <div style="text-align: center; margin: 30px 0;">
+                    <button class="btn" onclick="processVideo()" id="processBtn">🚀 Xử lý Video với YOLOv5</button>
+                    <button class="btn" onclick="saveProcessedVideo()" id="saveBtn" style="margin-left: 10px; display: none;">💾 Lưu Video đã xử lý</button>
+                </div>
+
+                <div class="result-box">
+                    <h3>🎥 Video Detection Real-time</h3>
+                    <img id="videoFeed" src="" class="webcam-feed" style="display: none;">
+                    <video id="processedVideo" controls class="webcam-feed" style="display: none;"></video>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab 3: Webcam -->
+        <div class="tab-content">
+            <div class="webcam-container">
+                <h2 style="color: #667eea; margin-bottom: 20px;">📹 Webcam Detection Live</h2>
+                <p style="color: #666; margin-bottom: 30px;">
+                    Phát hiện đối tượng real-time từ webcam của bạn
+                </p>
+                
+                <button class="btn" onclick="startWebcam()" id="startWebcamBtn">▶️ Bật Webcam</button>
+                <button class="btn" onclick="stopWebcam()" id="stopWebcamBtn" style="display: none; background: #dc3545;">⏹️ Dừng Webcam</button>
+
+                <img id="webcamFeed" src="" class="webcam-feed" style="display: none; margin-top: 30px;">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentTab = 0;
+        let currentVideoFilename = '';
+
+        function switchTab(index) {
+            const tabs = document.querySelectorAll('.tab');
+            const contents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(tab => tab.classList.remove('active'));
+            contents.forEach(content => content.classList.remove('active'));
+            
+            tabs[index].classList.add('active');
+            contents[index].classList.add('active');
+            currentTab = index;
+        }
+
+        // Drag and drop cho ảnh
+        const imageDropArea = document.getElementById('imageDropArea');
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            imageDropArea.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            imageDropArea.addEventListener(eventName, () => {
+                imageDropArea.classList.add('dragover');
+            }, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            imageDropArea.addEventListener(eventName, () => {
+                imageDropArea.classList.remove('dragover');
+            }, false);
+        });
+
+        imageDropArea.addEventListener('drop', (e) => {
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                uploadImage(files[0]);
+            }
+        }, false);
+
+        // Drag and drop cho video
+        const videoDropArea = document.getElementById('videoDropArea');
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            videoDropArea.addEventListener(eventName, preventDefaults, false);
+        });
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            videoDropArea.addEventListener(eventName, () => {
+                videoDropArea.classList.add('dragover');
+            }, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            videoDropArea.addEventListener(eventName, () => {
+                videoDropArea.classList.remove('dragover');
+            }, false);
+        });
+
+        videoDropArea.addEventListener('drop', (e) => {
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                uploadVideo(files[0]);
+            }
+        }, false);
+
+        async function uploadImage(file) {
+            if (!file) return;
+
+            document.getElementById('imageLoading').classList.add('show');
+            document.getElementById('imageResult').classList.remove('show');
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            try {
+                const response = await fetch('/upload_image', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    // Hiển thị kết quả
+                    document.getElementById('originalImage').src = URL.createObjectURL(file);
+                    document.getElementById('resultImage').src = data.output_image;
+                    
+                    // Thống kê
+                    document.getElementById('totalObjects').textContent = data.total_objects;
+                    const avgConf = data.detections.reduce((acc, d) => acc + d.confidence, 0) / data.detections.length;
+                    document.getElementById('avgConfidence').textContent = (avgConf * 100).toFixed(1) + '%';
+
+                    // Danh sách detections
+                    const detectionList = document.getElementById('detectionList');
+                    detectionList.innerHTML = '';
+                    data.detections.forEach((det, idx) => {
+                        detectionList.innerHTML += `
+                            <div class="detection-item">
+                                <span class="object-name">${idx + 1}. ${det.class}</span>
+                                <span class="confidence">${(det.confidence * 100).toFixed(1)}%</span>
+                            </div>
+                        `;
+                    });
+
+                    document.getElementById('imageResult').classList.add('show');
+                } else {
+                    alert('Lỗi: ' + data.error);
+                }
+            } catch (error) {
+                alert('Lỗi khi upload: ' + error);
+            } finally {
+                document.getElementById('imageLoading').classList.remove('show');
+            }
+        }
+
+        async function uploadVideo(file) {
+            if (!file) return;
+
+            document.getElementById('videoLoading').classList.add('show');
+            document.getElementById('videoResult').classList.remove('show');
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            try {
+                const response = await fetch('/upload_video', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    currentVideoFilename = data.video_path;
+                    document.getElementById('videoAlert').innerHTML = `
+                        <div class="alert alert-success">
+                            ✅ ${data.message}
+                        </div>
+                    `;
+                    document.getElementById('videoResult').classList.add('show');
+                } else {
+                    document.getElementById('videoAlert').innerHTML = `
+                        <div class="alert alert-error">
+                            ❌ ${data.error}
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                document.getElementById('videoAlert').innerHTML = `
+                    <div class="alert alert-error">
+                        ❌ Lỗi khi upload: ${error}
+                    </div>
+                `;
+            } finally {
+                document.getElementById('videoLoading').classList.remove('show');
+            }
+        }
+
+        function processVideo() {
+            if (!currentVideoFilename) {
+                alert('Vui lòng upload video trước!');
+                return;
+            }
+
+            const videoFeed = document.getElementById('videoFeed');
+            videoFeed.src = `/process_video/${currentVideoFilename}`;
+            videoFeed.style.display = 'block';
+            document.getElementById('processedVideo').style.display = 'none';
+            document.getElementById('saveBtn').style.display = 'inline-block';
+        }
+
+        async function saveProcessedVideo() {
+            if (!currentVideoFilename) return;
+
+            document.getElementById('videoAlert').innerHTML = `
+                <div class="alert alert-info">
+                    ⏳ Đang lưu video... Vui lòng đợi.
+                </div>
+            `;
+
+            try {
+                const response = await fetch(`/save_video/${currentVideoFilename}`);
+                const data = await response.json();
+
+                if (data.success) {
+                    document.getElementById('videoAlert').innerHTML = `
+                        <div class="alert alert-success">
+                            ✅ Đã lưu video thành công! (${data.frames_processed} frames)
+                        </div>
+                    `;
+
+                    const processedVideo = document.getElementById('processedVideo');
+                    processedVideo.src = data.output_video;
+                    processedVideo.style.display = 'block';
+                    document.getElementById('videoFeed').style.display = 'none';
+                }
+            } catch (error) {
+                document.getElementById('videoAlert').innerHTML = `
+                    <div class="alert alert-error">
+                        ❌ Lỗi khi lưu video: ${error}
+                    </div>
+                `;
+            }
+        }
+
+        function startWebcam() {
+            const webcamFeed = document.getElementById('webcamFeed');
+            webcamFeed.src = '/webcam_feed';
+            webcamFeed.style.display = 'block';
+            document.getElementById('startWebcamBtn').style.display = 'none';
+            document.getElementById('stopWebcamBtn').style.display = 'inline-block';
+        }
+
+        function stopWebcam() {
+            const webcamFeed = document.getElementById('webcamFeed');
+            webcamFeed.src = '';
+            webcamFeed.style.display = 'none';
+            document.getElementById('startWebcamBtn').style.display = 'inline-block';
+            document.getElementById('stopWebcamBtn').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
