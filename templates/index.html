@@ -1,128 +1,202 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vi">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>YOLOv5 Web Demo</title>
-  <style>
-    body { font-family: Arial, sans-serif; background: #f7f8fb; color: #222; margin: 0; padding: 0; }
-    .container { max-width: 1000px; margin: 0 auto; padding: 24px; }
-    h1, h2 { margin: 0 0 16px; }
-    .card { background: #fff; border-radius: 12px; box-shadow: 0 12px 24px rgba(0,0,0,0.08); padding: 24px; margin-bottom: 24px; }
-    .row { display: grid; gap: 16px; grid-template-columns: 1fr; }
-    .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 16px; }
-    button { background: #2f80ed; color: #fff; padding: 12px 18px; border: none; border-radius: 8px; cursor: pointer; transition: transform .15s ease; }
-    button:hover { transform: translateY(-1px); }
-    input, select { width: 100%; padding: 10px 12px; border: 1px solid #d8dde6; border-radius: 10px; }
-    .preview { width: 100%; max-height: 520px; object-fit: contain; border-radius: 12px; border: 1px solid #ccc; margin-top: 12px; }
-    .small-text { font-size: 0.95rem; color: #555; }
-    .output-area { margin-top: 16px; }
-    .result { background: #f4f9ff; border: 1px solid #d9e8ff; border-radius: 10px; padding: 16px; }
-    .result ul { margin: 0; padding-left: 18px; }
-    .link { color: #2f80ed; text-decoration: none; }
-    .status { margin-top: 12px; font-weight: 600; }
-    .grid-two { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <h1>YOLOv5 Web Demo</h1>
-    <p class="small-text">Tải ảnh/video hoặc stream webcam để kiểm tra YOLOv5 trực quan.</p>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>YOLOv5 Web Demo</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #f7f8fb;
+        color: #222;
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 24px;
+      }
+      h1,
+      h2 {
+        margin: 0 0 16px;
+      }
+      .card {
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+        padding: 24px;
+        margin-bottom: 24px;
+      }
+      .row {
+        display: grid;
+        gap: 16px;
+        grid-template-columns: 1fr;
+      }
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 16px;
+      }
+      button {
+        background: #2f80ed;
+        color: #fff;
+        padding: 12px 18px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: transform 0.15s ease;
+      }
+      button:hover {
+        transform: translateY(-1px);
+      }
+      input,
+      select {
+        width: 100%;
+        padding: 10px 12px;
+        border: 1px solid #d8dde6;
+        border-radius: 10px;
+      }
+      .preview {
+        width: 100%;
+        max-height: 520px;
+        object-fit: contain;
+        border-radius: 12px;
+        border: 1px solid #ccc;
+        margin-top: 12px;
+      }
+      .small-text {
+        font-size: 0.95rem;
+        color: #555;
+      }
+      .output-area {
+        margin-top: 16px;
+      }
+      .result {
+        background: #f4f9ff;
+        border: 1px solid #d9e8ff;
+        border-radius: 10px;
+        padding: 16px;
+      }
+      .result ul {
+        margin: 0;
+        padding-left: 18px;
+      }
+      .link {
+        color: #2f80ed;
+        text-decoration: none;
+      }
+      .status {
+        margin-top: 12px;
+        font-weight: 600;
+      }
+      .grid-two {
+        display: grid;
+        gap: 16px;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>YOLOv5 Web Demo</h1>
+      <p class="small-text">Tải ảnh/video hoặc stream webcam để kiểm tra YOLOv5 trực quan.</p>
 
-    <div class="grid-two">
-      <div class="card">
-        <h2>1. Đăng ảnh</h2>
-        <form id="imageForm">
-          <input type="file" id="imageInput" accept="image/*" />
-          <div class="actions">
-            <button type="submit">Tải ảnh lên & phát hiện</button>
-          </div>
-        </form>
-        <div class="output-area" id="imageOutput"></div>
+      <div class="grid-two">
+        <div class="card">
+          <h2>1. Đăng ảnh</h2>
+          <form id="imageForm">
+            <input type="file" id="imageInput" accept="image/*" />
+            <div class="actions">
+              <button type="submit">Tải ảnh lên & phát hiện</button>
+            </div>
+          </form>
+          <div class="output-area" id="imageOutput"></div>
+        </div>
+
+        <div class="card">
+          <h2>2. Đăng video</h2>
+          <form id="videoForm">
+            <input type="file" id="videoInput" accept="video/*,.ts" />
+            <div class="actions">
+              <button type="submit">Tải video lên</button>
+            </div>
+          </form>
+          <div class="output-area" id="videoOutput"></div>
+        </div>
       </div>
 
       <div class="card">
-        <h2>2. Đăng video</h2>
-        <form id="videoForm">
-          <input type="file" id="videoInput" accept="video/*,.ts" />
-          <div class="actions">
-            <button type="submit">Tải video lên</button>
-          </div>
-        </form>
-        <div class="output-area" id="videoOutput"></div>
+        <h2>3. Webcam live</h2>
+        <p class="small-text">Nhấn "Bắt đầu webcam" để xem luồng video với YOLOv5.</p>
+        <div class="actions">
+          <button id="startWebcam">Bắt đầu webcam</button>
+          <button id="stopWebcam" disabled>Ngừng webcam</button>
+        </div>
+        <div class="output-area" id="webcamOutput"></div>
       </div>
     </div>
 
-    <div class="card">
-      <h2>3. Webcam live</h2>
-      <p class="small-text">Nhấn "Bắt đầu webcam" để xem luồng video với YOLOv5.</p>
-      <div class="actions">
-        <button id="startWebcam">Bắt đầu webcam</button>
-        <button id="stopWebcam" disabled>Ngừng webcam</button>
-      </div>
-      <div class="output-area" id="webcamOutput"></div>
-    </div>
-  </div>
+    <script>
+      const imageForm = document.getElementById("imageForm");
+      const imageInput = document.getElementById("imageInput");
+      const imageOutput = document.getElementById("imageOutput");
 
-  <script>
-    const imageForm = document.getElementById('imageForm');
-    const imageInput = document.getElementById('imageInput');
-    const imageOutput = document.getElementById('imageOutput');
+      const videoForm = document.getElementById("videoForm");
+      const videoInput = document.getElementById("videoInput");
+      const videoOutput = document.getElementById("videoOutput");
 
-    const videoForm = document.getElementById('videoForm');
-    const videoInput = document.getElementById('videoInput');
-    const videoOutput = document.getElementById('videoOutput');
+      const startWebcam = document.getElementById("startWebcam");
+      const stopWebcam = document.getElementById("stopWebcam");
+      const webcamOutput = document.getElementById("webcamOutput");
+      let webcamStreamUrl = null;
 
-    const startWebcam = document.getElementById('startWebcam');
-    const stopWebcam = document.getElementById('stopWebcam');
-    const webcamOutput = document.getElementById('webcamOutput');
-    let webcamStreamUrl = null;
-
-    imageForm.addEventListener('submit', async event => {
-      event.preventDefault();
-      imageOutput.innerHTML = '<p class="status">Đang gửi ảnh...</p>';
-      const file = imageInput.files[0];
-      if (!file) {
-        imageOutput.innerHTML = '<p class="status">Vui lòng chọn ảnh.</p>';
-        return;
-      }
-      const formData = new FormData();
-      formData.append('file', file);
-      const res = await fetch('/upload_image', { method: 'POST', body: formData });
-      const data = await res.json();
-      if (!res.ok || !data.success) {
-        imageOutput.innerHTML = `<p class="status">Lỗi: ${data.error || 'Không xác định'}</p>`;
-        return;
-      }
-      imageOutput.innerHTML = `
+      imageForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        imageOutput.innerHTML = '<p class="status">Đang gửi ảnh...</p>';
+        const file = imageInput.files[0];
+        if (!file) {
+          imageOutput.innerHTML = '<p class="status">Vui lòng chọn ảnh.</p>';
+          return;
+        }
+        const formData = new FormData();
+        formData.append("file", file);
+        const res = await fetch("/upload_image", { method: "POST", body: formData });
+        const data = await res.json();
+        if (!res.ok || !data.success) {
+          imageOutput.innerHTML = `<p class="status">Lỗi: ${data.error || "Không xác định"}</p>`;
+          return;
+        }
+        imageOutput.innerHTML = `
         <div class="result">
           <p class="status">Đã phát hiện ${data.total_objects} đối tượng.</p>
           <img class="preview" src="${data.output_image}" alt="Kết quả ảnh" />
           <p><a class="link" href="${data.output_image}" target="_blank">Mở ảnh kết quả</a></p>
           <h3>Kết quả:</h3>
-          <ul>${data.detections.map(item => `<li>${item.class} (${(item.confidence*100).toFixed(1)}%) — [${item.bbox.join(', ')}]</li>`).join('')}</ul>
+          <ul>${data.detections.map((item) => `<li>${item.class} (${(item.confidence * 100).toFixed(1)}%) — [${item.bbox.join(", ")}]</li>`).join("")}</ul>
         </div>`;
-    });
+      });
 
-    videoForm.addEventListener('submit', async event => {
-      event.preventDefault();
-      videoOutput.innerHTML = '<p class="status">Đang gửi video...</p>';
-      const file = videoInput.files[0];
-      if (!file) {
-        videoOutput.innerHTML = '<p class="status">Vui lòng chọn video.</p>';
-        return;
-      }
-      const formData = new FormData();
-      formData.append('file', file);
-      const res = await fetch('/upload_video', { method: 'POST', body: formData });
-      const data = await res.json();
-      if (!res.ok || !data.success) {
-        videoOutput.innerHTML = `<p class="status">Lỗi: ${data.error || 'Không xác định'}</p>`;
-        return;
-      }
-      const streamUrl = `/process_video/${encodeURIComponent(data.video_path)}`;
-      const saveUrl = `/save_video/${encodeURIComponent(data.video_path)}`;
-      videoOutput.innerHTML = `
+      videoForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        videoOutput.innerHTML = '<p class="status">Đang gửi video...</p>';
+        const file = videoInput.files[0];
+        if (!file) {
+          videoOutput.innerHTML = '<p class="status">Vui lòng chọn video.</p>';
+          return;
+        }
+        const formData = new FormData();
+        formData.append("file", file);
+        const res = await fetch("/upload_video", { method: "POST", body: formData });
+        const data = await res.json();
+        if (!res.ok || !data.success) {
+          videoOutput.innerHTML = `<p class="status">Lỗi: ${data.error || "Không xác định"}</p>`;
+          return;
+        }
+        const streamUrl = `/process_video/${encodeURIComponent(data.video_path)}`;
+        const saveUrl = `/save_video/${encodeURIComponent(data.video_path)}`;
+        videoOutput.innerHTML = `
         <div class="result">
           <p class="status">Video đã upload thành công. Bắt đầu xử lý bằng luồng realtime bên dưới.</p>
           <img class="preview" id="videoStream" src="${streamUrl}" alt="Video stream" />
@@ -131,33 +205,33 @@
           </div>
           <div id="saveResult"></div>
         </div>`;
-      document.getElementById('saveVideoBtn').addEventListener('click', async () => {
-        const response = await fetch(saveUrl);
-        const result = await response.json();
-        if (!response.ok || !result.success) {
-          document.getElementById('saveResult').innerHTML = `<p class="status">Lỗi khi lưu video.</p>`;
-          return;
-        }
-        document.getElementById('saveResult').innerHTML = `
+        document.getElementById("saveVideoBtn").addEventListener("click", async () => {
+          const response = await fetch(saveUrl);
+          const result = await response.json();
+          if (!response.ok || !result.success) {
+            document.getElementById("saveResult").innerHTML = `<p class="status">Lỗi khi lưu video.</p>`;
+            return;
+          }
+          document.getElementById("saveResult").innerHTML = `
           <p class="status">Đã lưu ${result.frames_processed} frame.</p>
           <p><a class="link" href="${result.output_video}" target="_blank">Mở video kết quả</a></p>`;
+        });
       });
-    });
 
-    startWebcam.addEventListener('click', () => {
-      if (webcamStreamUrl) return;
-      webcamStreamUrl = '/webcam_feed';
-      webcamOutput.innerHTML = `<img class="preview" src="${webcamStreamUrl}" alt="Webcam stream" />`;
-      startWebcam.disabled = true;
-      stopWebcam.disabled = false;
-    });
+      startWebcam.addEventListener("click", () => {
+        if (webcamStreamUrl) return;
+        webcamStreamUrl = "/webcam_feed";
+        webcamOutput.innerHTML = `<img class="preview" src="${webcamStreamUrl}" alt="Webcam stream" />`;
+        startWebcam.disabled = true;
+        stopWebcam.disabled = false;
+      });
 
-    stopWebcam.addEventListener('click', () => {
-      webcamOutput.innerHTML = '<p class="status">Webcam đã dừng. Nhấn bắt đầu để xem lại.</p>';
-      webcamStreamUrl = null;
-      startWebcam.disabled = false;
-      stopWebcam.disabled = true;
-    });
-  </script>
-</body>
+      stopWebcam.addEventListener("click", () => {
+        webcamOutput.innerHTML = '<p class="status">Webcam đã dừng. Nhấn bắt đầu để xem lại.</p>';
+        webcamStreamUrl = null;
+        startWebcam.disabled = false;
+        stopWebcam.disabled = true;
+      });
+    </script>
+  </body>
 </html>
