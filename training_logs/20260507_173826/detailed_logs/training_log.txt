@@ -1,0 +1,4 @@
+2026-05-07 17:38:26,223 - INFO -   - Epochs: 10
+2026-05-07 17:38:26,223 - INFO -   - Batch size: 16
+2026-05-07 17:38:26,223 - INFO -   - Image size: 640
+2026-05-07 17:38:26,223 - INFO -   - Confidence threshold: 0.5

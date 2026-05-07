@@ -1,163 +1,1132 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>YOLOv5 Web Demo</title>
-  <style>
-    body { font-family: Arial, sans-serif; background: #f7f8fb; color: #222; margin: 0; padding: 0; }
-    .container { max-width: 1000px; margin: 0 auto; padding: 24px; }
-    h1, h2 { margin: 0 0 16px; }
-    .card { background: #fff; border-radius: 12px; box-shadow: 0 12px 24px rgba(0,0,0,0.08); padding: 24px; margin-bottom: 24px; }
-    .row { display: grid; gap: 16px; grid-template-columns: 1fr; }
-    .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 16px; }
-    button { background: #2f80ed; color: #fff; padding: 12px 18px; border: none; border-radius: 8px; cursor: pointer; transition: transform .15s ease; }
-    button:hover { transform: translateY(-1px); }
-    input, select { width: 100%; padding: 10px 12px; border: 1px solid #d8dde6; border-radius: 10px; }
-    .preview { width: 100%; max-height: 520px; object-fit: contain; border-radius: 12px; border: 1px solid #ccc; margin-top: 12px; }
-    .small-text { font-size: 0.95rem; color: #555; }
-    .output-area { margin-top: 16px; }
-    .result { background: #f4f9ff; border: 1px solid #d9e8ff; border-radius: 10px; padding: 16px; }
-    .result ul { margin: 0; padding-left: 18px; }
-    .link { color: #2f80ed; text-decoration: none; }
-    .status { margin-top: 12px; font-weight: 600; }
-    .grid-two { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YOLOv5 Web Detection - AI Camera Vật Nuôi</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            background: #f8f9fa;
+            border: none;
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #666;
+            transition: all 0.3s;
+        }
+
+        .tab:hover {
+            background: #e9ecef;
+        }
+
+        .tab.active {
+            background: white;
+            color: #667eea;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 40px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .upload-area {
+            border: 3px dashed #667eea;
+            border-radius: 15px;
+            padding: 60px;
+            text-align: center;
+            background: #f8f9ff;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 30px;
+        }
+
+        .upload-area:hover {
+            border-color: #764ba2;
+            background: #f0f2ff;
+            transform: scale(1.02);
+        }
+
+        .upload-area.dragover {
+            background: #e8ebff;
+            border-color: #764ba2;
+        }
+
+        .upload-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+            color: #667eea;
+        }
+
+        .upload-text {
+            font-size: 1.3em;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .upload-subtext {
+            color: #666;
+            font-size: 0.95em;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1em;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        .result-container {
+            margin-top: 30px;
+            display: none;
+        }
+
+        .result-container.show {
+            display: block;
+        }
+
+        .result-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .result-box {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .result-box h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .result-box img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .result-box video {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .detection-info {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+
+        .detection-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .detection-item:last-child {
+            border-bottom: none;
+        }
+
+        .object-name {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .confidence {
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .loading.show {
+            display: block;
+        }
+
+        .spinner {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #667eea;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 30px 0;
+            gap: 20px;
+        }
+
+        .stat-card {
+            flex: 1;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1em;
+            opacity: 0.9;
+        }
+
+        .webcam-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .webcam-feed {
+            width: 100%;
+            max-width: 800px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            margin: 20px auto;
+            display: block;
+        }
+
+        .alert {
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border-left: 4px solid #28a745;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border-left: 4px solid #dc3545;
+        }
+
+        .alert-info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border-left: 4px solid #17a2b8;
+        }
+
+        @media (max-width: 768px) {
+            .result-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats {
+                flex-direction: column;
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <h1>YOLOv5 Web Demo</h1>
-    <p class="small-text">Tải ảnh/video hoặc stream webcam để kiểm tra YOLOv5 trực quan.</p>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 YOLOv5 AI Detection System</h1>
+            <p>Hệ thống phát hiện đối tượng thông minh cho Camera Vật Nuôi</p>
+        </div>
 
-    <div class="grid-two">
-      <div class="card">
-        <h2>1. Đăng ảnh</h2>
-        <form id="imageForm">
-          <input type="file" id="imageInput" accept="image/*" />
-          <div class="actions">
-            <button type="submit">Tải ảnh lên & phát hiện</button>
-          </div>
-        </form>
-        <div class="output-area" id="imageOutput"></div>
-      </div>
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab(0)">📷 Upload Ảnh</button>
+            <button class="tab" onclick="switchTab(1)">🎥 Upload Video</button>
+            <button class="tab" onclick="switchTab(2)">📹 Webcam Live</button>
+            <button class="tab" onclick="switchTab(3)">🎓 Training Model</button>
+        </div>
 
-      <div class="card">
-        <h2>2. Đăng video</h2>
-        <form id="videoForm">
-          <input type="file" id="videoInput" accept="video/*,.ts" />
-          <div class="actions">
-            <button type="submit">Tải video lên</button>
-          </div>
-        </form>
-        <div class="output-area" id="videoOutput"></div>
-      </div>
+        <!-- Tab 1: Upload Ảnh -->
+        <div class="tab-content active">
+            <div class="upload-area" id="imageDropArea" onclick="document.getElementById('imageInput').click()">
+                <div class="upload-icon">📸</div>
+                <div class="upload-text">Kéo thả ảnh vào đây hoặc click để chọn</div>
+                <div class="upload-subtext">Hỗ trợ: JPG, PNG, BMP, WEBP (Tối đa 500MB)</div>
+                <input type="file" id="imageInput" accept="image/*" onchange="uploadImage(this.files[0])">
+            </div>
+
+            <div class="loading" id="imageLoading">
+                <div class="spinner"></div>
+                <p>Đang xử lý ảnh với YOLOv5...</p>
+            </div>
+
+            <div class="result-container" id="imageResult">
+                <div class="stats">
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalObjects">0</div>
+                        <div class="stat-label">Đối tượng phát hiện</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="avgConfidence">0%</div>
+                        <div class="stat-label">Độ chính xác TB</div>
+                    </div>
+                </div>
+
+                <div class="result-grid">
+                    <div class="result-box">
+                        <h3>🖼️ Ảnh gốc</h3>
+                        <img id="originalImage" src="" alt="Original">
+                    </div>
+                    <div class="result-box">
+                        <h3>✅ Kết quả Detection</h3>
+                        <img id="resultImage" src="" alt="Result">
+                    </div>
+                </div>
+
+                <div class="result-box" style="margin-top: 20px;">
+                    <h3>📋 Chi tiết các đối tượng phát hiện</h3>
+                    <div class="detection-info" id="detectionList"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab 2: Upload Video -->
+        <div class="tab-content">
+            <div class="upload-area" id="videoDropArea" onclick="document.getElementById('videoInput').click()">
+                <div class="upload-icon">🎬</div>
+                <div class="upload-text">Kéo thả video vào đây hoặc click để chọn</div>
+                <div class="upload-subtext">Hỗ trợ: MP4, AVI, MOV, MKV (Tối đa 500MB)</div>
+                <input type="file" id="videoInput" accept="video/*" onchange="uploadVideo(this.files[0])">
+            </div>
+
+            <div id="videoAlert"></div>
+
+            <div class="loading" id="videoLoading">
+                <div class="spinner"></div>
+                <p>Đang upload video...</p>
+            </div>
+
+            <div class="result-container" id="videoResult">
+                <div style="text-align: center; margin: 30px 0;">
+                    <button class="btn" onclick="processVideo()" id="processBtn">🚀 Xử lý Video với YOLOv5</button>
+                    <button class="btn" onclick="saveProcessedVideo()" id="saveBtn" style="margin-left: 10px; display: none;">💾 Lưu Video đã xử lý</button>
+                </div>
+
+                <div class="result-box">
+                    <h3>🎥 Video Detection Real-time</h3>
+                    <img id="videoFeed" src="" class="webcam-feed" style="display: none;">
+                    <video id="processedVideo" controls class="webcam-feed" style="display: none;"></video>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab 3: Webcam -->
+        <div class="tab-content">
+            <div class="webcam-container">
+                <h2 style="color: #667eea; margin-bottom: 20px;">📹 Webcam Detection Live</h2>
+                <p style="color: #666; margin-bottom: 30px;">
+                    Phát hiện đối tượng real-time từ webcam của bạn
+                </p>
+                
+                <button class="btn" onclick="startWebcam()" id="startWebcamBtn">▶️ Bật Webcam</button>
+                <button class="btn" onclick="stopWebcam()" id="stopWebcamBtn" style="display: none; background: #dc3545;">⏹️ Dừng Webcam</button>
+
+                <img id="webcamFeed" src="" class="webcam-feed" style="display: none; margin-top: 30px;">
+            </div>
+        </div>
+
+        <!-- Tab 4: Training -->
+        <div class="tab-content">
+            <div style="max-width: 1200px; margin: 0 auto;">
+                <h2 style="color: #667eea; margin-bottom: 10px;">🎓 Training Model YOLOv5</h2>
+                <p style="color: #666; margin-bottom: 30px;">
+                    Upload ảnh training và file COCO annotations để huấn luyện mô hình
+                </p>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 30px;">
+                    <!-- Section 1: Upload ảnh training -->
+                    <div class="result-box">
+                        <h3 style="color: #667eea;">📸 Bước 1: Upload Ảnh Training</h3>
+                        <div class="upload-area" id="trainingImageDropArea" onclick="document.getElementById('trainingImageInput').click()" style="padding: 40px; margin-bottom: 20px;">
+                            <div class="upload-icon">📁</div>
+                            <div class="upload-text">Kéo thả ảnh training vào đây</div>
+                            <div class="upload-subtext">Hoặc click để chọn nhiều ảnh</div>
+                            <input type="file" id="trainingImageInput" accept="image/*" multiple onchange="handleTrainingImages(this.files)">
+                        </div>
+                        <div id="uploadedImagesList" style="background: white; padding: 15px; border-radius: 10px; max-height: 300px; overflow-y: auto;">
+                            <p style="color: #999; text-align: center;">Chưa upload ảnh</p>
+                        </div>
+                        <p style="margin-top: 10px; color: #666; font-size: 0.9em;">
+                            ✅ <span id="trainingImageCount">0</span> ảnh đã upload
+                        </p>
+                    </div>
+
+                    <!-- Section 2: Upload file COCO -->
+                    <div class="result-box">
+                        <h3 style="color: #667eea;">📋 Bước 2: Upload File COCO Annotations</h3>
+                        <div class="upload-area" id="cocoFileDropArea" onclick="document.getElementById('cocoFileInput').click()" style="padding: 40px; margin-bottom: 20px;">
+                            <div class="upload-icon">📄</div>
+                            <div class="upload-text">Kéo thả file COCO JSON</div>
+                            <div class="upload-subtext">File định dạng: annotations.json</div>
+                            <input type="file" id="cocoFileInput" accept=".json" onchange="handleCocoFile(this.files[0])">
+                        </div>
+                        <div id="cocoFileInfo" style="background: white; padding: 15px; border-radius: 10px; color: #666;">
+                            <p style="text-align: center;">Chưa upload file COCO</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Training Parameters -->
+                <div class="result-box" style="margin-bottom: 30px;">
+                    <h3 style="color: #667eea;">⚙️ Tham số Training</h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 15px;">
+                        <div>
+                            <label style="display: block; margin-bottom: 5px; color: #333; font-weight: 600;">Epochs</label>
+                            <input type="number" id="trainingEpochs" value="10" min="1" max="100" 
+                                   style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                        </div>
+                        <div>
+                            <label style="display: block; margin-bottom: 5px; color: #333; font-weight: 600;">Batch Size</label>
+                            <input type="number" id="trainingBatchSize" value="16" min="1" max="128" 
+                                   style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                        </div>
+                        <div>
+                            <label style="display: block; margin-bottom: 5px; color: #333; font-weight: 600;">Image Size</label>
+                            <select id="trainingImgSize" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                                <option value="416">416</option>
+                                <option value="512">512</option>
+                                <option value="640" selected>640</option>
+                                <option value="800">800</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label style="display: block; margin-bottom: 5px; color: #333; font-weight: 600;">Confidence Threshold</label>
+                            <input type="number" id="trainingConfidence" value="0.5" min="0" max="1" step="0.1"
+                                   style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Start Training -->
+                <div style="text-align: center; margin-bottom: 30px;">
+                    <button class="btn" onclick="startTraining()" id="startTrainingBtn" style="font-size: 1.2em; padding: 20px 40px;">
+                        🚀 Bắt đầu Training
+                    </button>
+                </div>
+
+                <!-- Training Progress -->
+                <div class="loading" id="trainingLoading" style="display: none;">
+                    <div class="spinner"></div>
+                    <p id="trainingProgressText">Đang bắt đầu training...</p>
+                    <div style="width: 100%; background: #e0e0e0; border-radius: 10px; height: 30px; margin: 20px 0; overflow: hidden;">
+                        <div id="trainingProgressBar" style="width: 0%; height: 100%; background: linear-gradient(90deg, #667eea 0%, #764ba2 100%); transition: width 0.3s; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">
+                            0%
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Training Results -->
+                <div id="trainingResults" style="display: none;">
+                    <div id="trainingAlert"></div>
+
+                    <!-- Summary Stats -->
+                    <div class="stats" style="margin-bottom: 30px;">
+                        <div class="stat-card">
+                            <div class="stat-number" id="totalImagesProcessed">0</div>
+                            <div class="stat-label">Ảnh đã xử lý</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="avgConfidenceResult">0%</div>
+                            <div class="stat-label">Độ chính xác TB</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="lowDetectionCount">0</div>
+                            <div class="stat-label">Ảnh detection thấp</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="falsePositivesCount">0</div>
+                            <div class="stat-label">False Positives</div>
+                        </div>
+                    </div>
+
+                    <!-- Training Logs -->
+                    <div class="result-box" style="margin-bottom: 30px;">
+                        <h3>📊 Kết quả Training</h3>
+                        <div id="trainingLogContent" style="background: #f5f5f5; padding: 15px; border-radius: 10px; font-family: monospace; max-height: 400px; overflow-y: auto; color: #333;">
+                            <!-- Logs will be populated here -->
+                        </div>
+                    </div>
+
+                    <!-- Low Detection Images -->
+                    <div class="result-box" style="margin-bottom: 30px;">
+                        <h3>🔴 Ảnh Detection Thấp (<span id="lowDetectionImagesCount">0</span>)</h3>
+                        <div id="lowDetectionImagesContainer" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px;">
+                            <p style="color: #999; grid-column: 1/-1;">Sẽ hiển thị ảnh detection thấp</p>
+                        </div>
+                    </div>
+
+                    <!-- False Positives Images -->
+                    <div class="result-box" style="margin-bottom: 30px;">
+                        <h3>🟡 False Positives (<span id="falsePositivesImagesCount">0</span>)</h3>
+                        <div id="falsePositivesImagesContainer" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px;">
+                            <p style="color: #999; grid-column: 1/-1;">Sẽ hiển thị ảnh false positives</p>
+                        </div>
+                    </div>
+
+                    <!-- Download Logs -->
+                    <div style="text-align: center;">
+                        <button class="btn" onclick="downloadTrainingLogs()" style="margin-right: 10px;">
+                            💾 Download Logs
+                        </button>
+                        <button class="btn" onclick="openTrainingDirectory()" style="background: #28a745;">
+                            📁 Mở Thư mục
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="card">
-      <h2>3. Webcam live</h2>
-      <p class="small-text">Nhấn "Bắt đầu webcam" để xem luồng video với YOLOv5.</p>
-      <div class="actions">
-        <button id="startWebcam">Bắt đầu webcam</button>
-        <button id="stopWebcam" disabled>Ngừng webcam</button>
-      </div>
-      <div class="output-area" id="webcamOutput"></div>
-    </div>
-  </div>
+    <script>
+        let currentTab = 0;
+        let currentVideoFilename = '';
+        let trainingImageFiles = [];
+        let cocoFileSelected = false;
+        let currentTrainingId = null;
 
-  <script>
-    const imageForm = document.getElementById('imageForm');
-    const imageInput = document.getElementById('imageInput');
-    const imageOutput = document.getElementById('imageOutput');
-
-    const videoForm = document.getElementById('videoForm');
-    const videoInput = document.getElementById('videoInput');
-    const videoOutput = document.getElementById('videoOutput');
-
-    const startWebcam = document.getElementById('startWebcam');
-    const stopWebcam = document.getElementById('stopWebcam');
-    const webcamOutput = document.getElementById('webcamOutput');
-    let webcamStreamUrl = null;
-
-    imageForm.addEventListener('submit', async event => {
-      event.preventDefault();
-      imageOutput.innerHTML = '<p class="status">Đang gửi ảnh...</p>';
-      const file = imageInput.files[0];
-      if (!file) {
-        imageOutput.innerHTML = '<p class="status">Vui lòng chọn ảnh.</p>';
-        return;
-      }
-      const formData = new FormData();
-      formData.append('file', file);
-      const res = await fetch('/upload_image', { method: 'POST', body: formData });
-      const data = await res.json();
-      if (!res.ok || !data.success) {
-        imageOutput.innerHTML = `<p class="status">Lỗi: ${data.error || 'Không xác định'}</p>`;
-        return;
-      }
-      imageOutput.innerHTML = `
-        <div class="result">
-          <p class="status">Đã phát hiện ${data.total_objects} đối tượng.</p>
-          <img class="preview" src="${data.output_image}" alt="Kết quả ảnh" />
-          <p><a class="link" href="${data.output_image}" target="_blank">Mở ảnh kết quả</a></p>
-          <h3>Kết quả:</h3>
-          <ul>${data.detections.map(item => `<li>${item.class} (${(item.confidence*100).toFixed(1)}%) — [${item.bbox.join(', ')}]</li>`).join('')}</ul>
-        </div>`;
-    });
-
-    videoForm.addEventListener('submit', async event => {
-      event.preventDefault();
-      videoOutput.innerHTML = '<p class="status">Đang gửi video...</p>';
-      const file = videoInput.files[0];
-      if (!file) {
-        videoOutput.innerHTML = '<p class="status">Vui lòng chọn video.</p>';
-        return;
-      }
-      const formData = new FormData();
-      formData.append('file', file);
-      const res = await fetch('/upload_video', { method: 'POST', body: formData });
-      const data = await res.json();
-      if (!res.ok || !data.success) {
-        videoOutput.innerHTML = `<p class="status">Lỗi: ${data.error || 'Không xác định'}</p>`;
-        return;
-      }
-      const streamUrl = `/process_video/${encodeURIComponent(data.video_path)}`;
-      const saveUrl = `/save_video/${encodeURIComponent(data.video_path)}`;
-      videoOutput.innerHTML = `
-        <div class="result">
-          <p class="status">Video đã upload thành công. Bắt đầu xử lý bằng luồng realtime bên dưới.</p>
-          <img class="preview" id="videoStream" src="${streamUrl}" alt="Video stream" />
-          <div class="actions" style="margin-top:12px;">
-            <button id="saveVideoBtn">Lưu video đã xử lý</button>
-          </div>
-          <div id="saveResult"></div>
-        </div>`;
-      document.getElementById('saveVideoBtn').addEventListener('click', async () => {
-        const response = await fetch(saveUrl);
-        const result = await response.json();
-        if (!response.ok || !result.success) {
-          document.getElementById('saveResult').innerHTML = `<p class="status">Lỗi khi lưu video.</p>`;
-          return;
+        function switchTab(index) {
+            const tabs = document.querySelectorAll('.tab');
+            const contents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(tab => tab.classList.remove('active'));
+            contents.forEach(content => content.classList.remove('active'));
+            
+            tabs[index].classList.add('active');
+            contents[index].classList.add('active');
+            currentTab = index;
         }
-        document.getElementById('saveResult').innerHTML = `
-          <p class="status">Đã lưu ${result.frames_processed} frame.</p>
-          <p><a class="link" href="${result.output_video}" target="_blank">Mở video kết quả</a></p>`;
-      });
-    });
 
-    startWebcam.addEventListener('click', () => {
-      if (webcamStreamUrl) return;
-      webcamStreamUrl = '/webcam_feed';
-      webcamOutput.innerHTML = `<img class="preview" src="${webcamStreamUrl}" alt="Webcam stream" />`;
-      startWebcam.disabled = true;
-      stopWebcam.disabled = false;
-    });
+        // ==================== IMAGE DETECTION ====================
 
-    stopWebcam.addEventListener('click', () => {
-      webcamOutput.innerHTML = '<p class="status">Webcam đã dừng. Nhấn bắt đầu để xem lại.</p>';
-      webcamStreamUrl = null;
-      startWebcam.disabled = false;
-      stopWebcam.disabled = true;
-    });
-  </script>
+        // Drag and drop cho ảnh
+        const imageDropArea = document.getElementById('imageDropArea');
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            imageDropArea.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            imageDropArea.addEventListener(eventName, () => {
+                imageDropArea.classList.add('dragover');
+            }, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            imageDropArea.addEventListener(eventName, () => {
+                imageDropArea.classList.remove('dragover');
+            }, false);
+        });
+
+        imageDropArea.addEventListener('drop', (e) => {
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                uploadImage(files[0]);
+            }
+        }, false);
+
+        // Drag and drop cho video
+        const videoDropArea = document.getElementById('videoDropArea');
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            videoDropArea.addEventListener(eventName, preventDefaults, false);
+        });
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            videoDropArea.addEventListener(eventName, () => {
+                videoDropArea.classList.add('dragover');
+            }, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            videoDropArea.addEventListener(eventName, () => {
+                videoDropArea.classList.remove('dragover');
+            }, false);
+        });
+
+        videoDropArea.addEventListener('drop', (e) => {
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                uploadVideo(files[0]);
+            }
+        }, false);
+
+        async function uploadImage(file) {
+            if (!file) return;
+
+            document.getElementById('imageLoading').classList.add('show');
+            document.getElementById('imageResult').classList.remove('show');
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            try {
+                const response = await fetch('/upload_image', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    // Hiển thị kết quả
+                    document.getElementById('originalImage').src = URL.createObjectURL(file);
+                    document.getElementById('resultImage').src = data.output_image;
+                    
+                    // Thống kê
+                    document.getElementById('totalObjects').textContent = data.total_objects;
+                    const avgConf = data.detections.reduce((acc, d) => acc + d.confidence, 0) / data.detections.length;
+                    document.getElementById('avgConfidence').textContent = (avgConf * 100).toFixed(1) + '%';
+
+                    // Danh sách detections
+                    const detectionList = document.getElementById('detectionList');
+                    detectionList.innerHTML = '';
+                    data.detections.forEach((det, idx) => {
+                        detectionList.innerHTML += `
+                            <div class="detection-item">
+                                <span class="object-name">${idx + 1}. ${det.class}</span>
+                                <span class="confidence">${(det.confidence * 100).toFixed(1)}%</span>
+                            </div>
+                        `;
+                    });
+
+                    document.getElementById('imageResult').classList.add('show');
+                } else {
+                    alert('Lỗi: ' + data.error);
+                }
+            } catch (error) {
+                alert('Lỗi khi upload: ' + error);
+            } finally {
+                document.getElementById('imageLoading').classList.remove('show');
+            }
+        }
+
+        async function uploadVideo(file) {
+            if (!file) return;
+
+            document.getElementById('videoLoading').classList.add('show');
+            document.getElementById('videoResult').classList.remove('show');
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            try {
+                const response = await fetch('/upload_video', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    currentVideoFilename = data.video_path;
+                    document.getElementById('videoAlert').innerHTML = `
+                        <div class="alert alert-success">
+                            ✅ ${data.message}
+                        </div>
+                    `;
+                    document.getElementById('videoResult').classList.add('show');
+                } else {
+                    document.getElementById('videoAlert').innerHTML = `
+                        <div class="alert alert-error">
+                            ❌ ${data.error}
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                document.getElementById('videoAlert').innerHTML = `
+                    <div class="alert alert-error">
+                        ❌ Lỗi khi upload: ${error}
+                    </div>
+                `;
+            } finally {
+                document.getElementById('videoLoading').classList.remove('show');
+            }
+        }
+
+        function processVideo() {
+            if (!currentVideoFilename) {
+                alert('Vui lòng upload video trước!');
+                return;
+            }
+
+            const videoFeed = document.getElementById('videoFeed');
+            videoFeed.src = `/process_video/${currentVideoFilename}`;
+            videoFeed.style.display = 'block';
+            document.getElementById('processedVideo').style.display = 'none';
+            document.getElementById('saveBtn').style.display = 'inline-block';
+        }
+
+        async function saveProcessedVideo() {
+            if (!currentVideoFilename) return;
+
+            document.getElementById('videoAlert').innerHTML = `
+                <div class="alert alert-info">
+                    ⏳ Đang lưu video... Vui lòng đợi.
+                </div>
+            `;
+
+            try {
+                const response = await fetch(`/save_video/${currentVideoFilename}`);
+                const data = await response.json();
+
+                if (data.success) {
+                    document.getElementById('videoAlert').innerHTML = `
+                        <div class="alert alert-success">
+                            ✅ Đã lưu video thành công! (${data.frames_processed} frames)
+                        </div>
+                    `;
+
+                    const processedVideo = document.getElementById('processedVideo');
+                    processedVideo.src = data.output_video;
+                    processedVideo.style.display = 'block';
+                    document.getElementById('videoFeed').style.display = 'none';
+                }
+            } catch (error) {
+                document.getElementById('videoAlert').innerHTML = `
+                    <div class="alert alert-error">
+                        ❌ Lỗi khi lưu video: ${error}
+                    </div>
+                `;
+            }
+        }
+
+        function startWebcam() {
+            const webcamFeed = document.getElementById('webcamFeed');
+            webcamFeed.src = '/webcam_feed';
+            webcamFeed.style.display = 'block';
+            document.getElementById('startWebcamBtn').style.display = 'none';
+            document.getElementById('stopWebcamBtn').style.display = 'inline-block';
+        }
+
+        function stopWebcam() {
+            const webcamFeed = document.getElementById('webcamFeed');
+            webcamFeed.src = '';
+            webcamFeed.style.display = 'none';
+            document.getElementById('startWebcamBtn').style.display = 'inline-block';
+            document.getElementById('stopWebcamBtn').style.display = 'none';
+        }
+
+        // ==================== TRAINING ====================
+
+        // Drag and drop cho training images
+        const trainingImageDropArea = document.getElementById('trainingImageDropArea');
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            trainingImageDropArea.addEventListener(eventName, preventDefaults, false);
+        });
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            trainingImageDropArea.addEventListener(eventName, () => {
+                trainingImageDropArea.classList.add('dragover');
+            }, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            trainingImageDropArea.addEventListener(eventName, () => {
+                trainingImageDropArea.classList.remove('dragover');
+            }, false);
+        });
+
+        trainingImageDropArea.addEventListener('drop', (e) => {
+            const files = e.dataTransfer.files;
+            handleTrainingImages(files);
+        }, false);
+
+        // Drag and drop cho COCO file
+        const cocoFileDropArea = document.getElementById('cocoFileDropArea');
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            cocoFileDropArea.addEventListener(eventName, preventDefaults, false);
+        });
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            cocoFileDropArea.addEventListener(eventName, () => {
+                cocoFileDropArea.classList.add('dragover');
+            }, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            cocoFileDropArea.addEventListener(eventName, () => {
+                cocoFileDropArea.classList.remove('dragover');
+            }, false);
+        });
+
+        cocoFileDropArea.addEventListener('drop', (e) => {
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleCocoFile(files[0]);
+            }
+        }, false);
+
+        async function handleTrainingImages(files) {
+            if (!files || files.length === 0) return;
+
+            const formData = new FormData();
+            for (let file of files) {
+                if (file.type.startsWith('image/')) {
+                    formData.append('files', file);
+                }
+            }
+
+            try {
+                const response = await fetch('/upload_train_images', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    trainingImageFiles = data.uploaded_files;
+                    document.getElementById('trainingImageCount').textContent = data.total_images;
+                    
+                    // Display uploaded images list
+                    const listDiv = document.getElementById('uploadedImagesList');
+                    listDiv.innerHTML = '';
+                    data.uploaded_files.forEach(file => {
+                        const item = document.createElement('div');
+                        item.style.cssText = 'padding: 8px; border-bottom: 1px solid #eee; color: #666;';
+                        item.textContent = '✓ ' + file;
+                        listDiv.appendChild(item);
+                    });
+                } else {
+                    alert('Lỗi: ' + data.error);
+                }
+            } catch (error) {
+                alert('Lỗi khi upload ảnh: ' + error);
+            }
+        }
+
+        async function handleCocoFile(file) {
+            if (!file) return;
+
+            if (!file.name.endsWith('.json')) {
+                alert('Vui lòng chọn file JSON');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            try {
+                const response = await fetch('/upload_coco_file', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    cocoFileSelected = true;
+                    const infoDiv = document.getElementById('cocoFileInfo');
+                    infoDiv.innerHTML = `
+                        <div style="color: #28a745;">
+                            ✅ File COCO uploaded thành công!
+                        </div>
+                        <p><strong>Ảnh:</strong> ${data.images_count}</p>
+                        <p><strong>Annotations:</strong> ${data.annotations_count}</p>
+                        <p><strong>Classes:</strong> ${data.categories.map(c => c.name).join(', ')}</p>
+                    `;
+                } else {
+                    alert('Lỗi: ' + data.error);
+                    cocoFileSelected = false;
+                }
+            } catch (error) {
+                alert('Lỗi khi upload file COCO: ' + error);
+            }
+        }
+
+        async function startTraining() {
+            if (trainingImageFiles.length === 0) {
+                alert('⚠️ Vui lòng upload ảnh training trước');
+                return;
+            }
+
+            if (!cocoFileSelected) {
+                alert('⚠️ Vui lòng upload file COCO annotations trước');
+                return;
+            }
+
+            // Get training parameters
+            const epochs = parseInt(document.getElementById('trainingEpochs').value);
+            const batch_size = parseInt(document.getElementById('trainingBatchSize').value);
+            const img_size = parseInt(document.getElementById('trainingImgSize').value);
+            const confidence_threshold = parseFloat(document.getElementById('trainingConfidence').value);
+
+            // Show loading
+            document.getElementById('trainingLoading').style.display = 'block';
+            document.getElementById('trainingResults').style.display = 'none';
+            document.getElementById('startTrainingBtn').disabled = true;
+
+            try {
+                const response = await fetch('/start_training', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        epochs,
+                        batch_size,
+                        img_size,
+                        confidence_threshold
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    currentTrainingId = data.training_id;
+                    
+                    // Start monitoring training progress
+                    monitorTrainingProgress();
+                } else {
+                    alert('Lỗi: ' + data.error);
+                    document.getElementById('trainingLoading').style.display = 'none';
+                    document.getElementById('startTrainingBtn').disabled = false;
+                }
+            } catch (error) {
+                alert('Lỗi khi bắt đầu training: ' + error);
+                document.getElementById('trainingLoading').style.display = 'none';
+                document.getElementById('startTrainingBtn').disabled = false;
+            }
+        }
+
+        async function monitorTrainingProgress() {
+            const statusCheckInterval = setInterval(async () => {
+                try {
+                    const response = await fetch('/training_status');
+                    const data = await response.json();
+
+                    // Update progress bar
+                    const progressBar = document.getElementById('trainingProgressBar');
+                    progressBar.style.width = data.progress + '%';
+                    progressBar.textContent = data.progress + '%';
+
+                    // Update progress text
+                    document.getElementById('trainingProgressText').textContent = data.message;
+
+                    // If training finished
+                    if (!data.is_training) {
+                        clearInterval(statusCheckInterval);
+
+                        // Hide loading and show results
+                        document.getElementById('trainingLoading').style.display = 'none';
+                        document.getElementById('trainingResults').style.display = 'block';
+                        document.getElementById('startTrainingBtn').disabled = false;
+
+                        // Load and display training logs
+                        if (data.training_id) {
+                            displayTrainingLogs(data.training_id);
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error monitoring training:', error);
+                }
+            }, 1000); // Check every 1 second
+        }
+
+        async function displayTrainingLogs(trainingId) {
+            try {
+                const response = await fetch(`/get_training_logs/${trainingId}`);
+                const data = await response.json();
+
+                if (data.success) {
+                    const summary = data.summary;
+
+                    // Update stats
+                    document.getElementById('totalImagesProcessed').textContent = summary.total_images;
+                    document.getElementById('avgConfidenceResult').textContent = 
+                        (summary.average_confidence * 100).toFixed(1) + '%';
+                    document.getElementById('lowDetectionCount').textContent = data.low_detection_count;
+                    document.getElementById('falsePositivesCount').textContent = data.false_positives_count;
+
+                    // Show alert based on status
+                    const alertDiv = document.getElementById('trainingAlert');
+                    if (summary.status === 'completed') {
+                        alertDiv.innerHTML = `
+                            <div class="alert alert-success">
+                                ✅ Training completed successfully!<br>
+                                Status: ${summary.status}<br>
+                                Start: ${new Date(summary.start_time).toLocaleString()}<br>
+                                End: ${new Date(summary.end_time).toLocaleString()}
+                            </div>
+                        `;
+                    } else {
+                        alertDiv.innerHTML = `
+                            <div class="alert alert-error">
+                                ❌ Training status: ${summary.status}
+                            </div>
+                        `;
+                    }
+
+                    // Display low detection images
+                    displayTrainingImages(data.low_detection_images, 'lowDetectionImagesContainer', 
+                                        'lowDetectionImagesCount');
+
+                    // Display false positives images
+                    displayTrainingImages(data.false_positives_images, 'falsePositivesImagesContainer',
+                                        'falsePositivesImagesCount');
+                }
+            } catch (error) {
+                console.error('Error loading training logs:', error);
+            }
+        }
+
+        function displayTrainingImages(imageUrls, containerId, countId) {
+            const container = document.getElementById(containerId);
+            const countElement = document.getElementById(countId);
+
+            countElement.textContent = imageUrls.length;
+
+            if (imageUrls.length === 0) {
+                container.innerHTML = '<p style="color: #999; grid-column: 1/-1;">Không có ảnh</p>';
+                return;
+            }
+
+            container.innerHTML = '';
+            imageUrls.forEach(url => {
+                const imgDiv = document.createElement('div');
+                imgDiv.style.cssText = 'position: relative; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.1);';
+                
+                const img = document.createElement('img');
+                img.src = url;
+                img.style.cssText = 'width: 100%; height: 200px; object-fit: cover; cursor: pointer;';
+                img.onclick = () => {
+                    // Open image in new tab
+                    window.open(url, '_blank');
+                };
+
+                imgDiv.appendChild(img);
+                container.appendChild(imgDiv);
+            });
+        }
+
+        function downloadTrainingLogs() {
+            if (!currentTrainingId) {
+                alert('No training session found');
+                return;
+            }
+
+            // Download the log directory as zip would be ideal, but for now,
+            // we'll just open the folder
+            alert('💾 Logs are saved in: training_logs/' + currentTrainingId);
+            openTrainingDirectory();
+        }
+
+        function openTrainingDirectory() {
+            if (!currentTrainingId) {
+                alert('No training session found');
+                return;
+            }
+
+            // In a real scenario, you'd need a backend endpoint to open the folder
+            alert('📁 Training logs location: training_logs/' + currentTrainingId);
+        }
+    </script>
 </body>
 </html>

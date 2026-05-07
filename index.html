@@ -337,6 +337,7 @@
             <button class="tab active" onclick="switchTab(0)">📷 Upload Ảnh</button>
             <button class="tab" onclick="switchTab(1)">🎥 Upload Video</button>
             <button class="tab" onclick="switchTab(2)">📹 Webcam Live</button>
+            <button class="tab" onclick="switchTab(3)">🎓 Training Model</button>
         </div>
 
         <!-- Tab 1: Upload Ảnh -->
@@ -427,11 +428,165 @@
                 <img id="webcamFeed" src="" class="webcam-feed" style="display: none; margin-top: 30px;">
             </div>
         </div>
+
+        <!-- Tab 4: Training -->
+        <div class="tab-content">
+            <div style="max-width: 1200px; margin: 0 auto;">
+                <h2 style="color: #667eea; margin-bottom: 10px;">🎓 Training Model YOLOv5</h2>
+                <p style="color: #666; margin-bottom: 30px;">
+                    Upload ảnh training và file COCO annotations để huấn luyện mô hình
+                </p>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 30px;">
+                    <!-- Section 1: Upload ảnh training -->
+                    <div class="result-box">
+                        <h3 style="color: #667eea;">📸 Bước 1: Upload Ảnh Training</h3>
+                        <div class="upload-area" id="trainingImageDropArea" onclick="document.getElementById('trainingImageInput').click()" style="padding: 40px; margin-bottom: 20px;">
+                            <div class="upload-icon">📁</div>
+                            <div class="upload-text">Kéo thả ảnh training vào đây</div>
+                            <div class="upload-subtext">Hoặc click để chọn nhiều ảnh</div>
+                            <input type="file" id="trainingImageInput" accept="image/*" multiple onchange="handleTrainingImages(this.files)">
+                        </div>
+                        <div id="uploadedImagesList" style="background: white; padding: 15px; border-radius: 10px; max-height: 300px; overflow-y: auto;">
+                            <p style="color: #999; text-align: center;">Chưa upload ảnh</p>
+                        </div>
+                        <p style="margin-top: 10px; color: #666; font-size: 0.9em;">
+                            ✅ <span id="trainingImageCount">0</span> ảnh đã upload
+                        </p>
+                    </div>
+
+                    <!-- Section 2: Upload file COCO -->
+                    <div class="result-box">
+                        <h3 style="color: #667eea;">📋 Bước 2: Upload File COCO Annotations</h3>
+                        <div class="upload-area" id="cocoFileDropArea" onclick="document.getElementById('cocoFileInput').click()" style="padding: 40px; margin-bottom: 20px;">
+                            <div class="upload-icon">📄</div>
+                            <div class="upload-text">Kéo thả file COCO JSON</div>
+                            <div class="upload-subtext">File định dạng: annotations.json</div>
+                            <input type="file" id="cocoFileInput" accept=".json" onchange="handleCocoFile(this.files[0])">
+                        </div>
+                        <div id="cocoFileInfo" style="background: white; padding: 15px; border-radius: 10px; color: #666;">
+                            <p style="text-align: center;">Chưa upload file COCO</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Training Parameters -->
+                <div class="result-box" style="margin-bottom: 30px;">
+                    <h3 style="color: #667eea;">⚙️ Tham số Training</h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 15px;">
+                        <div>
+                            <label style="display: block; margin-bottom: 5px; color: #333; font-weight: 600;">Epochs</label>
+                            <input type="number" id="trainingEpochs" value="10" min="1" max="100" 
+                                   style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                        </div>
+                        <div>
+                            <label style="display: block; margin-bottom: 5px; color: #333; font-weight: 600;">Batch Size</label>
+                            <input type="number" id="trainingBatchSize" value="16" min="1" max="128" 
+                                   style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                        </div>
+                        <div>
+                            <label style="display: block; margin-bottom: 5px; color: #333; font-weight: 600;">Image Size</label>
+                            <select id="trainingImgSize" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                                <option value="416">416</option>
+                                <option value="512">512</option>
+                                <option value="640" selected>640</option>
+                                <option value="800">800</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label style="display: block; margin-bottom: 5px; color: #333; font-weight: 600;">Confidence Threshold</label>
+                            <input type="number" id="trainingConfidence" value="0.5" min="0" max="1" step="0.1"
+                                   style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Start Training -->
+                <div style="text-align: center; margin-bottom: 30px;">
+                    <button class="btn" onclick="startTraining()" id="startTrainingBtn" style="font-size: 1.2em; padding: 20px 40px;">
+                        🚀 Bắt đầu Training
+                    </button>
+                </div>
+
+                <!-- Training Progress -->
+                <div class="loading" id="trainingLoading" style="display: none;">
+                    <div class="spinner"></div>
+                    <p id="trainingProgressText">Đang bắt đầu training...</p>
+                    <div style="width: 100%; background: #e0e0e0; border-radius: 10px; height: 30px; margin: 20px 0; overflow: hidden;">
+                        <div id="trainingProgressBar" style="width: 0%; height: 100%; background: linear-gradient(90deg, #667eea 0%, #764ba2 100%); transition: width 0.3s; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">
+                            0%
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Training Results -->
+                <div id="trainingResults" style="display: none;">
+                    <div id="trainingAlert"></div>
+
+                    <!-- Summary Stats -->
+                    <div class="stats" style="margin-bottom: 30px;">
+                        <div class="stat-card">
+                            <div class="stat-number" id="totalImagesProcessed">0</div>
+                            <div class="stat-label">Ảnh đã xử lý</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="avgConfidenceResult">0%</div>
+                            <div class="stat-label">Độ chính xác TB</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="lowDetectionCount">0</div>
+                            <div class="stat-label">Ảnh detection thấp</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="falsePositivesCount">0</div>
+                            <div class="stat-label">False Positives</div>
+                        </div>
+                    </div>
+
+                    <!-- Training Logs -->
+                    <div class="result-box" style="margin-bottom: 30px;">
+                        <h3>📊 Kết quả Training</h3>
+                        <div id="trainingLogContent" style="background: #f5f5f5; padding: 15px; border-radius: 10px; font-family: monospace; max-height: 400px; overflow-y: auto; color: #333;">
+                            <!-- Logs will be populated here -->
+                        </div>
+                    </div>
+
+                    <!-- Low Detection Images -->
+                    <div class="result-box" style="margin-bottom: 30px;">
+                        <h3>🔴 Ảnh Detection Thấp (<span id="lowDetectionImagesCount">0</span>)</h3>
+                        <div id="lowDetectionImagesContainer" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px;">
+                            <p style="color: #999; grid-column: 1/-1;">Sẽ hiển thị ảnh detection thấp</p>
+                        </div>
+                    </div>
+
+                    <!-- False Positives Images -->
+                    <div class="result-box" style="margin-bottom: 30px;">
+                        <h3>🟡 False Positives (<span id="falsePositivesImagesCount">0</span>)</h3>
+                        <div id="falsePositivesImagesContainer" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px;">
+                            <p style="color: #999; grid-column: 1/-1;">Sẽ hiển thị ảnh false positives</p>
+                        </div>
+                    </div>
+
+                    <!-- Download Logs -->
+                    <div style="text-align: center;">
+                        <button class="btn" onclick="downloadTrainingLogs()" style="margin-right: 10px;">
+                            💾 Download Logs
+                        </button>
+                        <button class="btn" onclick="openTrainingDirectory()" style="background: #28a745;">
+                            📁 Mở Thư mục
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
         let currentTab = 0;
         let currentVideoFilename = '';
+        let trainingImageFiles = [];
+        let cocoFileSelected = false;
+        let currentTrainingId = null;
 
         function switchTab(index) {
             const tabs = document.querySelectorAll('.tab');
@@ -444,6 +599,8 @@
             contents[index].classList.add('active');
             currentTab = index;
         }
+
+        // ==================== IMAGE DETECTION ====================
 
         // Drag and drop cho ảnh
         const imageDropArea = document.getElementById('imageDropArea');
@@ -654,6 +811,321 @@
             webcamFeed.style.display = 'none';
             document.getElementById('startWebcamBtn').style.display = 'inline-block';
             document.getElementById('stopWebcamBtn').style.display = 'none';
+        }
+
+        // ==================== TRAINING ====================
+
+        // Drag and drop cho training images
+        const trainingImageDropArea = document.getElementById('trainingImageDropArea');
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            trainingImageDropArea.addEventListener(eventName, preventDefaults, false);
+        });
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            trainingImageDropArea.addEventListener(eventName, () => {
+                trainingImageDropArea.classList.add('dragover');
+            }, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            trainingImageDropArea.addEventListener(eventName, () => {
+                trainingImageDropArea.classList.remove('dragover');
+            }, false);
+        });
+
+        trainingImageDropArea.addEventListener('drop', (e) => {
+            const files = e.dataTransfer.files;
+            handleTrainingImages(files);
+        }, false);
+
+        // Drag and drop cho COCO file
+        const cocoFileDropArea = document.getElementById('cocoFileDropArea');
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            cocoFileDropArea.addEventListener(eventName, preventDefaults, false);
+        });
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            cocoFileDropArea.addEventListener(eventName, () => {
+                cocoFileDropArea.classList.add('dragover');
+            }, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            cocoFileDropArea.addEventListener(eventName, () => {
+                cocoFileDropArea.classList.remove('dragover');
+            }, false);
+        });
+
+        cocoFileDropArea.addEventListener('drop', (e) => {
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleCocoFile(files[0]);
+            }
+        }, false);
+
+        async function handleTrainingImages(files) {
+            if (!files || files.length === 0) return;
+
+            const formData = new FormData();
+            for (let file of files) {
+                if (file.type.startsWith('image/')) {
+                    formData.append('files', file);
+                }
+            }
+
+            try {
+                const response = await fetch('/upload_train_images', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    trainingImageFiles = data.uploaded_files;
+                    document.getElementById('trainingImageCount').textContent = data.total_images;
+                    
+                    // Display uploaded images list
+                    const listDiv = document.getElementById('uploadedImagesList');
+                    listDiv.innerHTML = '';
+                    data.uploaded_files.forEach(file => {
+                        const item = document.createElement('div');
+                        item.style.cssText = 'padding: 8px; border-bottom: 1px solid #eee; color: #666;';
+                        item.textContent = '✓ ' + file;
+                        listDiv.appendChild(item);
+                    });
+                } else {
+                    alert('Lỗi: ' + data.error);
+                }
+            } catch (error) {
+                alert('Lỗi khi upload ảnh: ' + error);
+            }
+        }
+
+        async function handleCocoFile(file) {
+            if (!file) return;
+
+            if (!file.name.endsWith('.json')) {
+                alert('Vui lòng chọn file JSON');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            try {
+                const response = await fetch('/upload_coco_file', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    cocoFileSelected = true;
+                    const infoDiv = document.getElementById('cocoFileInfo');
+                    infoDiv.innerHTML = `
+                        <div style="color: #28a745;">
+                            ✅ File COCO uploaded thành công!
+                        </div>
+                        <p><strong>Ảnh:</strong> ${data.images_count}</p>
+                        <p><strong>Annotations:</strong> ${data.annotations_count}</p>
+                        <p><strong>Classes:</strong> ${data.categories.map(c => c.name).join(', ')}</p>
+                    `;
+                } else {
+                    alert('Lỗi: ' + data.error);
+                    cocoFileSelected = false;
+                }
+            } catch (error) {
+                alert('Lỗi khi upload file COCO: ' + error);
+            }
+        }
+
+        async function startTraining() {
+            if (trainingImageFiles.length === 0) {
+                alert('⚠️ Vui lòng upload ảnh training trước');
+                return;
+            }
+
+            if (!cocoFileSelected) {
+                alert('⚠️ Vui lòng upload file COCO annotations trước');
+                return;
+            }
+
+            // Get training parameters
+            const epochs = parseInt(document.getElementById('trainingEpochs').value);
+            const batch_size = parseInt(document.getElementById('trainingBatchSize').value);
+            const img_size = parseInt(document.getElementById('trainingImgSize').value);
+            const confidence_threshold = parseFloat(document.getElementById('trainingConfidence').value);
+
+            // Show loading
+            document.getElementById('trainingLoading').style.display = 'block';
+            document.getElementById('trainingResults').style.display = 'none';
+            document.getElementById('startTrainingBtn').disabled = true;
+
+            try {
+                const response = await fetch('/start_training', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        epochs,
+                        batch_size,
+                        img_size,
+                        confidence_threshold
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    currentTrainingId = data.training_id;
+                    
+                    // Start monitoring training progress
+                    monitorTrainingProgress();
+                } else {
+                    alert('Lỗi: ' + data.error);
+                    document.getElementById('trainingLoading').style.display = 'none';
+                    document.getElementById('startTrainingBtn').disabled = false;
+                }
+            } catch (error) {
+                alert('Lỗi khi bắt đầu training: ' + error);
+                document.getElementById('trainingLoading').style.display = 'none';
+                document.getElementById('startTrainingBtn').disabled = false;
+            }
+        }
+
+        async function monitorTrainingProgress() {
+            const statusCheckInterval = setInterval(async () => {
+                try {
+                    const response = await fetch('/training_status');
+                    const data = await response.json();
+
+                    // Update progress bar
+                    const progressBar = document.getElementById('trainingProgressBar');
+                    progressBar.style.width = data.progress + '%';
+                    progressBar.textContent = data.progress + '%';
+
+                    // Update progress text
+                    document.getElementById('trainingProgressText').textContent = data.message;
+
+                    // If training finished
+                    if (!data.is_training) {
+                        clearInterval(statusCheckInterval);
+
+                        // Hide loading and show results
+                        document.getElementById('trainingLoading').style.display = 'none';
+                        document.getElementById('trainingResults').style.display = 'block';
+                        document.getElementById('startTrainingBtn').disabled = false;
+
+                        // Load and display training logs
+                        if (data.training_id) {
+                            displayTrainingLogs(data.training_id);
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error monitoring training:', error);
+                }
+            }, 1000); // Check every 1 second
+        }
+
+        async function displayTrainingLogs(trainingId) {
+            try {
+                const response = await fetch(`/get_training_logs/${trainingId}`);
+                const data = await response.json();
+
+                if (data.success) {
+                    const summary = data.summary;
+
+                    // Update stats
+                    document.getElementById('totalImagesProcessed').textContent = summary.total_images;
+                    document.getElementById('avgConfidenceResult').textContent = 
+                        (summary.average_confidence * 100).toFixed(1) + '%';
+                    document.getElementById('lowDetectionCount').textContent = data.low_detection_count;
+                    document.getElementById('falsePositivesCount').textContent = data.false_positives_count;
+
+                    // Show alert based on status
+                    const alertDiv = document.getElementById('trainingAlert');
+                    if (summary.status === 'completed') {
+                        alertDiv.innerHTML = `
+                            <div class="alert alert-success">
+                                ✅ Training completed successfully!<br>
+                                Status: ${summary.status}<br>
+                                Start: ${new Date(summary.start_time).toLocaleString()}<br>
+                                End: ${new Date(summary.end_time).toLocaleString()}
+                            </div>
+                        `;
+                    } else {
+                        alertDiv.innerHTML = `
+                            <div class="alert alert-error">
+                                ❌ Training status: ${summary.status}
+                            </div>
+                        `;
+                    }
+
+                    // Display low detection images
+                    displayTrainingImages(data.low_detection_images, 'lowDetectionImagesContainer', 
+                                        'lowDetectionImagesCount');
+
+                    // Display false positives images
+                    displayTrainingImages(data.false_positives_images, 'falsePositivesImagesContainer',
+                                        'falsePositivesImagesCount');
+                }
+            } catch (error) {
+                console.error('Error loading training logs:', error);
+            }
+        }
+
+        function displayTrainingImages(imageUrls, containerId, countId) {
+            const container = document.getElementById(containerId);
+            const countElement = document.getElementById(countId);
+
+            countElement.textContent = imageUrls.length;
+
+            if (imageUrls.length === 0) {
+                container.innerHTML = '<p style="color: #999; grid-column: 1/-1;">Không có ảnh</p>';
+                return;
+            }
+
+            container.innerHTML = '';
+            imageUrls.forEach(url => {
+                const imgDiv = document.createElement('div');
+                imgDiv.style.cssText = 'position: relative; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.1);';
+                
+                const img = document.createElement('img');
+                img.src = url;
+                img.style.cssText = 'width: 100%; height: 200px; object-fit: cover; cursor: pointer;';
+                img.onclick = () => {
+                    // Open image in new tab
+                    window.open(url, '_blank');
+                };
+
+                imgDiv.appendChild(img);
+                container.appendChild(imgDiv);
+            });
+        }
+
+        function downloadTrainingLogs() {
+            if (!currentTrainingId) {
+                alert('No training session found');
+                return;
+            }
+
+            // Download the log directory as zip would be ideal, but for now,
+            // we'll just open the folder
+            alert('💾 Logs are saved in: training_logs/' + currentTrainingId);
+            openTrainingDirectory();
+        }
+
+        function openTrainingDirectory() {
+            if (!currentTrainingId) {
+                alert('No training session found');
+                return;
+            }
+
+            // In a real scenario, you'd need a backend endpoint to open the folder
+            alert('📁 Training logs location: training_logs/' + currentTrainingId);
         }
     </script>
 </body>

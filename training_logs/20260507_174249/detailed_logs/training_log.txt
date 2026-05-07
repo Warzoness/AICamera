@@ -1,0 +1,242 @@
+2026-05-07 17:42:49,654 - INFO - 🟢 Training Logger initialized
+2026-05-07 17:42:49,656 - INFO - 🚀 Bắt đầu training với các tham số:
+2026-05-07 17:42:49,656 - INFO -   - Epochs: 10
+2026-05-07 17:42:49,656 - INFO -   - Batch size: 16
+2026-05-07 17:42:49,657 - INFO -   - Image size: 640
+2026-05-07 17:42:49,657 - INFO -   - Confidence threshold: 0.5
+2026-05-07 17:42:49,657 - INFO - 📊 Tổng 21 ảnh training
+2026-05-07 17:42:49,657 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 0.00%
+2026-05-07 17:42:49,657 - INFO - 
+📚 Epoch 1/10
+2026-05-07 17:42:50,010 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 66.16%
+2026-05-07 17:42:50,106 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 67.33%
+2026-05-07 17:42:50,192 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 69.87%
+2026-05-07 17:42:50,278 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 72.06%
+2026-05-07 17:42:50,364 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 72.59%
+2026-05-07 17:42:50,461 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 68.98%
+2026-05-07 17:42:50,541 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 69.95%
+2026-05-07 17:42:50,612 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 70.30%
+2026-05-07 17:42:50,694 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 72.71%
+2026-05-07 17:42:50,770 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 69.42%
+2026-05-07 17:42:50,850 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 70.33%
+2026-05-07 17:42:50,909 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 66.36%
+2026-05-07 17:42:50,986 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 70.15%
+2026-05-07 17:42:51,070 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 68.85%
+2026-05-07 17:42:51,123 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 66.25%
+2026-05-07 17:42:51,178 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 68.18%
+2026-05-07 17:42:51,232 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 71.16%
+2026-05-07 17:42:51,284 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 70.08%
+2026-05-07 17:42:51,351 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 67.93%
+2026-05-07 17:42:51,423 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 68.55%
+2026-05-07 17:42:51,490 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 67.87%
+2026-05-07 17:42:51,491 - INFO - 
+📚 Epoch 2/10
+2026-05-07 17:42:51,554 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 66.16%
+2026-05-07 17:42:51,622 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 67.33%
+2026-05-07 17:42:51,684 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 69.87%
+2026-05-07 17:42:51,737 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 72.06%
+2026-05-07 17:42:51,788 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 72.59%
+2026-05-07 17:42:51,841 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 68.98%
+2026-05-07 17:42:51,916 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 69.95%
+2026-05-07 17:42:51,988 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 70.30%
+2026-05-07 17:42:52,053 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 72.71%
+2026-05-07 17:42:52,128 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 69.42%
+2026-05-07 17:42:52,201 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 70.33%
+2026-05-07 17:42:52,266 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 66.36%
+2026-05-07 17:42:52,360 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 70.15%
+2026-05-07 17:42:52,452 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 68.85%
+2026-05-07 17:42:52,502 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 66.25%
+2026-05-07 17:42:52,548 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 68.18%
+2026-05-07 17:42:52,602 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 71.16%
+2026-05-07 17:42:52,660 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 70.08%
+2026-05-07 17:42:52,734 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 67.93%
+2026-05-07 17:42:52,794 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 68.55%
+2026-05-07 17:42:52,861 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 67.87%
+2026-05-07 17:42:52,862 - INFO - 
+📚 Epoch 3/10
+2026-05-07 17:42:52,921 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 66.16%
+2026-05-07 17:42:52,993 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 67.33%
+2026-05-07 17:42:53,046 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 69.87%
+2026-05-07 17:42:53,101 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 72.06%
+2026-05-07 17:42:53,158 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 72.59%
+2026-05-07 17:42:53,211 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 68.98%
+2026-05-07 17:42:53,284 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 69.95%
+2026-05-07 17:42:53,355 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 70.30%
+2026-05-07 17:42:53,421 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 72.71%
+2026-05-07 17:42:53,494 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 69.42%
+2026-05-07 17:42:53,559 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 70.33%
+2026-05-07 17:42:53,611 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 66.36%
+2026-05-07 17:42:53,687 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 70.15%
+2026-05-07 17:42:53,760 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 68.85%
+2026-05-07 17:42:53,809 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 66.25%
+2026-05-07 17:42:53,859 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 68.18%
+2026-05-07 17:42:53,907 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 71.16%
+2026-05-07 17:42:53,961 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 70.08%
+2026-05-07 17:42:54,021 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 67.93%
+2026-05-07 17:42:54,090 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 68.55%
+2026-05-07 17:42:54,152 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 67.87%
+2026-05-07 17:42:54,152 - INFO - 
+📚 Epoch 4/10
+2026-05-07 17:42:54,210 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 66.16%
+2026-05-07 17:42:54,288 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 67.33%
+2026-05-07 17:42:54,364 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 69.87%
+2026-05-07 17:42:54,443 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 72.06%
+2026-05-07 17:42:54,495 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 72.59%
+2026-05-07 17:42:54,553 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 68.98%
+2026-05-07 17:42:54,628 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 69.95%
+2026-05-07 17:42:54,700 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 70.30%
+2026-05-07 17:42:54,764 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 72.71%
+2026-05-07 17:42:54,839 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 69.42%
+2026-05-07 17:42:54,916 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 70.33%
+2026-05-07 17:42:54,963 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 66.36%
+2026-05-07 17:42:55,029 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 70.15%
+2026-05-07 17:42:55,098 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 68.85%
+2026-05-07 17:42:55,153 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 66.25%
+2026-05-07 17:42:55,200 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 68.18%
+2026-05-07 17:42:55,252 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 71.16%
+2026-05-07 17:42:55,307 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 70.08%
+2026-05-07 17:42:55,372 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 67.93%
+2026-05-07 17:42:55,430 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 68.55%
+2026-05-07 17:42:55,492 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 67.87%
+2026-05-07 17:42:55,492 - INFO - 
+📚 Epoch 5/10
+2026-05-07 17:42:55,550 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 66.16%
+2026-05-07 17:42:55,613 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 67.33%
+2026-05-07 17:42:55,668 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 69.87%
+2026-05-07 17:42:55,724 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 72.06%
+2026-05-07 17:42:55,777 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 72.59%
+2026-05-07 17:42:55,833 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 68.98%
+2026-05-07 17:42:55,908 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 69.95%
+2026-05-07 17:42:55,985 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 70.30%
+2026-05-07 17:42:56,052 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 72.71%
+2026-05-07 17:42:56,127 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 69.42%
+2026-05-07 17:42:56,201 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 70.33%
+2026-05-07 17:42:56,253 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 66.36%
+2026-05-07 17:42:56,332 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 70.15%
+2026-05-07 17:42:56,412 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 68.85%
+2026-05-07 17:42:56,469 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 66.25%
+2026-05-07 17:42:56,520 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 68.18%
+2026-05-07 17:42:56,575 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 71.16%
+2026-05-07 17:42:56,633 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 70.08%
+2026-05-07 17:42:56,701 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 67.93%
+2026-05-07 17:42:56,772 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 68.55%
+2026-05-07 17:42:56,835 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 67.87%
+2026-05-07 17:42:56,835 - INFO - 
+📚 Epoch 6/10
+2026-05-07 17:42:56,905 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 66.16%
+2026-05-07 17:42:56,981 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 67.33%
+2026-05-07 17:42:57,044 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 69.87%
+2026-05-07 17:42:57,122 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 72.06%
+2026-05-07 17:42:57,200 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 72.59%
+2026-05-07 17:42:57,280 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 68.98%
+2026-05-07 17:42:57,361 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 69.95%
+2026-05-07 17:42:57,441 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 70.30%
+2026-05-07 17:42:57,507 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 72.71%
+2026-05-07 17:42:57,584 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 69.42%
+2026-05-07 17:42:57,660 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 70.33%
+2026-05-07 17:42:57,712 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 66.36%
+2026-05-07 17:42:57,791 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 70.15%
+2026-05-07 17:42:57,865 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 68.85%
+2026-05-07 17:42:57,919 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 66.25%
+2026-05-07 17:42:57,974 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 68.18%
+2026-05-07 17:42:58,024 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 71.16%
+2026-05-07 17:42:58,072 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 70.08%
+2026-05-07 17:42:58,132 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 67.93%
+2026-05-07 17:42:58,201 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 68.55%
+2026-05-07 17:42:58,274 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 67.87%
+2026-05-07 17:42:58,274 - INFO - 
+📚 Epoch 7/10
+2026-05-07 17:42:58,344 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 66.16%
+2026-05-07 17:42:58,411 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 67.33%
+2026-05-07 17:42:58,468 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 69.87%
+2026-05-07 17:42:58,528 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 72.06%
+2026-05-07 17:42:58,587 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 72.59%
+2026-05-07 17:42:58,645 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 68.98%
+2026-05-07 17:42:58,715 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 69.95%
+2026-05-07 17:42:58,793 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 70.30%
+2026-05-07 17:42:58,861 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 72.71%
+2026-05-07 17:42:58,940 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 69.42%
+2026-05-07 17:42:59,011 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 70.33%
+2026-05-07 17:42:59,067 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 66.36%
+2026-05-07 17:42:59,148 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 70.15%
+2026-05-07 17:42:59,228 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 68.85%
+2026-05-07 17:42:59,285 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 66.25%
+2026-05-07 17:42:59,346 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 68.18%
+2026-05-07 17:42:59,405 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 71.16%
+2026-05-07 17:42:59,462 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 70.08%
+2026-05-07 17:42:59,551 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 67.93%
+2026-05-07 17:42:59,638 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 68.55%
+2026-05-07 17:42:59,725 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 67.87%
+2026-05-07 17:42:59,725 - INFO - 
+📚 Epoch 8/10
+2026-05-07 17:42:59,808 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 66.16%
+2026-05-07 17:42:59,878 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 67.33%
+2026-05-07 17:42:59,934 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 69.87%
+2026-05-07 17:42:59,985 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 72.06%
+2026-05-07 17:43:00,047 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 72.59%
+2026-05-07 17:43:00,107 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 68.98%
+2026-05-07 17:43:00,176 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 69.95%
+2026-05-07 17:43:00,252 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 70.30%
+2026-05-07 17:43:00,319 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 72.71%
+2026-05-07 17:43:00,389 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 69.42%
+2026-05-07 17:43:00,470 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 70.33%
+2026-05-07 17:43:00,526 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 66.36%
+2026-05-07 17:43:00,601 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 70.15%
+2026-05-07 17:43:00,680 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 68.85%
+2026-05-07 17:43:00,730 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 66.25%
+2026-05-07 17:43:00,781 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 68.18%
+2026-05-07 17:43:00,834 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 71.16%
+2026-05-07 17:43:00,880 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 70.08%
+2026-05-07 17:43:00,944 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 67.93%
+2026-05-07 17:43:01,010 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 68.55%
+2026-05-07 17:43:01,070 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 67.87%
+2026-05-07 17:43:01,070 - INFO - 
+📚 Epoch 9/10
+2026-05-07 17:43:01,128 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 66.16%
+2026-05-07 17:43:01,186 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 67.33%
+2026-05-07 17:43:01,247 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 69.87%
+2026-05-07 17:43:01,305 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 72.06%
+2026-05-07 17:43:01,357 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 72.59%
+2026-05-07 17:43:01,413 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 68.98%
+2026-05-07 17:43:01,479 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 69.95%
+2026-05-07 17:43:01,556 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 70.30%
+2026-05-07 17:43:01,627 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 72.71%
+2026-05-07 17:43:01,700 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 69.42%
+2026-05-07 17:43:01,782 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 70.33%
+2026-05-07 17:43:01,835 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 66.36%
+2026-05-07 17:43:01,933 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 70.15%
+2026-05-07 17:43:02,033 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 68.85%
+2026-05-07 17:43:02,081 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 66.25%
+2026-05-07 17:43:02,134 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 68.18%
+2026-05-07 17:43:02,202 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 71.16%
+2026-05-07 17:43:02,257 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 70.08%
+2026-05-07 17:43:02,320 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 67.93%
+2026-05-07 17:43:02,382 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 68.55%
+2026-05-07 17:43:02,449 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 67.87%
+2026-05-07 17:43:02,450 - INFO - 
+📚 Epoch 10/10
+2026-05-07 17:43:02,508 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 66.16%
+2026-05-07 17:43:02,568 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 67.33%
+2026-05-07 17:43:02,629 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 69.87%
+2026-05-07 17:43:02,682 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 72.06%
+2026-05-07 17:43:02,742 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 72.59%
+2026-05-07 17:43:02,799 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 68.98%
+2026-05-07 17:43:02,875 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 69.95%
+2026-05-07 17:43:02,947 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 70.30%
+2026-05-07 17:43:03,019 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 72.71%
+2026-05-07 17:43:03,098 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 69.42%
+2026-05-07 17:43:03,170 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 70.33%
+2026-05-07 17:43:03,217 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 66.36%
+2026-05-07 17:43:03,293 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 70.15%
+2026-05-07 17:43:03,372 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 68.85%
+2026-05-07 17:43:03,425 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 66.25%
+2026-05-07 17:43:03,475 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 68.18%
+2026-05-07 17:43:03,523 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 71.16%
+2026-05-07 17:43:03,570 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 70.08%
+2026-05-07 17:43:03,635 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 67.93%
+2026-05-07 17:43:03,694 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 68.55%
+2026-05-07 17:43:03,757 - INFO - 📊 Thống kê: 21 ảnh, confidence TB: 67.87%
+2026-05-07 17:43:03,758 - INFO - 
+✅ Training hoàn tất thành công
+2026-05-07 17:43:03,758 - INFO - 📁 Log directory: training_logs\20260507_174249
+2026-05-07 17:43:03,758 - INFO - 📊 Summary: {'training_name': '20260507_174249', 'start_time': '2026-05-07T17:42:49.654274', 'end_time': '2026-05-07T17:43:03.757391', 'total_images': 21, 'low_detection_count': 0, 'false_positives_count': 0, 'average_confidence': np.float64(0.6786645184392515), 'status': 'completed'}
