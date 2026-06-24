@@ -52,18 +52,13 @@ Module này cung cấp class `TrainingLogger` với các tính năng:
 
 #### Global State:
 ```python
-training_state = {
-    'is_training': False,
-    'current_training': None,
-    'progress': 0,
-    'message': ''
-}
+training_state = {"is_training": False, "current_training": None, "progress": 0, "message": ""}
 ```
 
 #### Config:
 ```python
-app.config['TRAIN_IMAGES_FOLDER'] = 'training_data/images'
-app.config['TRAIN_LABELS_FOLDER'] = 'training_data/labels'
+app.config["TRAIN_IMAGES_FOLDER"] = "training_data/images"
+app.config["TRAIN_LABELS_FOLDER"] = "training_data/labels"
 ```
 
 ### 4. **index.html** - Frontend Updates
@@ -80,7 +75,7 @@ Giao diện 2-column:
 - Validate file structure
 - Hiển thị metadata (images count, annotations count, categories)
 
-**Tham Số Training:**
+**Than Số Training:**
 - Epochs (input number)
 - Batch Size (input number)
 - Image Size (dropdown: 416/512/640/800)
