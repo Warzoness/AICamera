@@ -69,7 +69,7 @@ yolov5/
 - **Head**: Dự đoán bounding box và class
 
 **Các kích thước model:**
-| Model | Tham số | Tốc độ | Độ chính xác |
+| Model | Than số | Tốc độ | Độ chính xác |
 |-------|---------|--------|--------------|
 | yolov5n | 1.9M | Rất nhanh | Trung bình |
 | yolov5s | 7.2M | Nhanh | Tốt |
@@ -259,9 +259,9 @@ python train.py \
   --device 0
 ```
 
-**Giải thích tham số:**
+**Giải thích than số:**
 
-| Tham số | Ý nghĩa | Gợi ý |
+| Than số | Ý nghĩa | Gợi ý |
 |---------|---------|-------|
 | `--data` | Đường dẫn file YAML cấu hình | data/my_dataset.yaml |
 | `--weights` | Pre-trained model (transfer learning) | yolov5s.pt (khuyến nghị) hoặc '' (train từ 0) |
@@ -325,9 +325,9 @@ python detect.py \
   --source path/to/images/
 ```
 
-**Tham số detect:**
+**Than số detect:**
 
-| Tham số | Ý nghĩa |
+| Than số | Ý nghĩa |
 |---------|---------|
 | `--weights` | Đường dẫn model `.pt` |
 | `--source` | Nguồn input (ảnh, video, webcam, thư mục) |
@@ -344,13 +344,11 @@ import torch
 from PIL import Image
 
 # Load model
-model = torch.hub.load('.', 'custom', 
-                       path='runs/train/exp3/weights/best.pt', 
-                       source='local')
+model = torch.hub.load(".", "custom", path="runs/train/exp3/weights/best.pt", source="local")
 model.conf = 0.25  # Confidence threshold
 
 # Inference trên ảnh
-img = Image.open('my_image.jpg')
+img = Image.open("my_image.jpg")
 results = model(img)
 
 # Xem kết quả
@@ -411,15 +409,13 @@ cow 0.234 0.567 0.123 0.234 0.78
 ### 3. Pandas DataFrame (Python API)
 
 ```python
-import torch
-from pathlib import Path
 
-model = torch.hub.load('.', 'custom', 
-                       path='runs/train/exp3/weights/best.pt', 
-                       source='local')
+import torch
+
+model = torch.hub.load(".", "custom", path="runs/train/exp3/weights/best.pt", source="local")
 
 # Inference
-results = model('my_image.jpg')
+results = model("my_image.jpg")
 
 # Lấy kết quả dưới dạng dataframe
 df = results.pandas().xyxy[0]
@@ -560,31 +556,28 @@ python detect.py \
 ### Ví dụ 4: Sử dụng Python API
 
 ```python
+
 import torch
-import cv2
-from pathlib import Path
 
 # Load model
-model = torch.hub.load('.', 'custom', 
-                       path='runs/train/exp3/weights/best.pt', 
-                       source='local')
+model = torch.hub.load(".", "custom", path="runs/train/exp3/weights/best.pt", source="local")
 
 # Config
 model.conf = 0.5
 model.iou = 0.45
 
 # Inference
-results = model('my_image.jpg')
+results = model("my_image.jpg")
 
 # Lấy predictions
 predictions = results.pandas().xyxy[0]
 
 # Xử lý kết quả
 for idx, row in predictions.iterrows():
-    xmin, ymin, xmax, ymax = int(row['xmin']), int(row['ymin']), int(row['xmax']), int(row['ymax'])
-    confidence = row['confidence']
-    class_name = row['name']
-    
+    xmin, ymin, xmax, ymax = int(row["xmin"]), int(row["ymin"]), int(row["xmax"]), int(row["ymax"])
+    confidence = row["confidence"]
+    class_name = row["name"]
+
     print(f"Phát hiện: {class_name} - Tin cậy: {confidence:.2f}")
     print(f"  Tọa độ: ({xmin}, {ymin}) -> ({xmax}, {ymax})")
 ```
@@ -595,7 +588,7 @@ for idx, row in predictions.iterrows():
 
 ### 1. Hyperparameters quan trọng
 
-| Tham số | Mặc định | Ý nghĩa |
+| Than số | Mặc định | Ý nghĩa |
 |---------|----------|---------|
 | `--batch` | 16 | Kích thước batch (phụ thuộc GPU memory) |
 | `--epochs` | 100 | Số vòng training |
@@ -619,7 +612,7 @@ for idx, row in predictions.iterrows():
 
 ```bash
 # Nếu GPU memory không đủ
-python train.py ... --batch 8  # Giảm batch size
+python train.py ... --batch 8 # Giảm batch size
 ```
 
 ### 3. Model architecture
@@ -686,7 +679,7 @@ pip install torch torchvision torchaudio --index-url https://download.pytorch.or
 
 ---
 
-## 📚 TÀI NGUYÊN THAM KHẢO
+## 📚 TÀI NGUYÊN THAN KHẢO
 
 - **YOLOv5 Official**: https://github.com/ultralytics/yolov5
 - **Ultralytics Docs**: https://docs.ultralytics.com/yolov5/
