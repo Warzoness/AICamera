@@ -1,5 +1,5 @@
 2026-05-07 17:40:49,225 - INFO - 🟢 Training Logger initialized
-2026-05-07 17:40:49,226 - INFO - 🚀 Bắt đầu training với các tham số:
+2026-05-07 17:40:49,226 - INFO - 🚀 Bắt đầu training với các than số:
 2026-05-07 17:40:49,226 - INFO -   - Epochs: 10
 2026-05-07 17:40:49,226 - INFO -   - Batch size: 16
 2026-05-07 17:40:49,226 - INFO -   - Image size: 640
