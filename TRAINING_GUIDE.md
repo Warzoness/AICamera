@@ -75,9 +75,9 @@ File COCO JSON phải có cấu trúc sau:
    - Số lượng annotations
    - Danh sách các classes
 
-### Bước 4: Cấu Hình Tham Số Training
+### Bước 4: Cấu Hình Than Số Training
 
-| Tham Số | Mặc Định | Phạm Vi | Mô Tả |
+| Than Số | Mặc Định | Phạm Vi | Mô Tả |
 |---------|---------|--------|-------|
 | **Epochs** | 10 | 1-100 | Số vòng training |
 | **Batch Size** | 16 | 1-128 | Số ảnh xử lý mỗi lần |
@@ -263,7 +263,7 @@ Khi gặp vấn đề:
    ↓
 2. Upload Ảnh & COCO (5%)
    ↓
-3. Cấu Hình Tham Số (5%)
+3. Cấu Hình Than Số (5%)
    ↓
 4. Training (60%)
    ↓
